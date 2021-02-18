@@ -1,0 +1,72 @@
+<div class="col-sm-12">
+    <app-app-loader></app-app-loader>
+    <div class="row">
+        <div class="col-sm-6 center-block">
+            <div class="card custom-admin-card">
+                <mat-card>
+                    <div class="card-header">
+                        <h5 *ngIf="pathName == 'uploadBulkUser'">Upload Users</h5>
+                        <h5 *ngIf="pathName == 'uploadBulkQuestion'">Upload Questions</h5>
+                    </div>
+                </mat-card>
+                <div class="card-body">
+                    <mat-card-content>  
+                        <form [formGroup] = "uploadForm">
+
+                            <mat-label *ngIf="pathName == 'uploadBulkQuestion'" class="col-sm-12">LOB Name: </mat-label>
+                            <ngx-select-dropdown *ngIf="pathName == 'uploadBulkQuestion'" (change)="getSubLob($event.value)" 
+                            [formControl]="uploadForm.controls['lob']" [multiple]="false" 
+                            [config]="lobConfig" [options]="lobList"></ngx-select-dropdown>
+                            <small *ngIf="uploadForm.controls['lob'].hasError('required') && uploadForm.controls['lob'].touched" 
+                                class="form-error-msg"> LOB is required. </small><br>
+
+                            <mat-label class="col-sm-12" *ngIf="pathName == 'uploadBulkQuestion'">Sub LOB Name: </mat-label>
+                            <ngx-select-dropdown *ngIf="pathName == 'uploadBulkQuestion'" (change)="getQuestionBank($event.value)"
+                            [formControl]="uploadForm.controls['subLob']" [multiple]="false" 
+                            [config]="subLobConfig" [options]="subLobList"></ngx-select-dropdown>
+                            <small *ngIf="uploadForm.controls['subLob'].hasError('required') && uploadForm.controls['subLob'].touched" 
+                                class="form-error-msg"> Sub LOB is required. </small><br>
+
+                            <mat-label class="col-sm-12" *ngIf="pathName == 'uploadBulkQuestion'">Question Bank Name: </mat-label>
+                            <ngx-select-dropdown *ngIf="pathName == 'uploadBulkQuestion'" (change)="toggleQuestionBankName()" 
+                            [formControl]="uploadForm.controls['selectedQuestionBankName']" [multiple]="false" 
+                            [config]="questionBankConfig" [options]="bankNameList"></ngx-select-dropdown>
+
+                            <!-- <a (click)="addNewQB();" style="cursor: pointer;">Add New Question Bank</a> -->
+
+                           
+
+                            <!-- <mat-form-field class="col-sm-12 custom-field select-control m-b-20" *ngIf="pathName == 'uploadBulkQuestion'">
+                                <mat-label>Select Question Bank Name</mat-label>
+                                    <mat-select name="selectedQuestionBankName" formControlName="selectedQuestionBankName" (selectionChange)="toggleQuestionBankName();">
+                                        <mat-option value="NEW">New</mat-option>
+                                        <mat-option *ngFor="let name of bankNameList" [value]="name.questionBankName">{{name.questionBankName}}
+                                        </mat-option>
+                                    </mat-select>
+                            </mat-form-field> -->
+                            <small *ngIf="uploadForm.controls['selectedQuestionBankName'].hasError('required') && uploadForm.controls['selectedQuestionBankName'].touched" 
+                                class="form-error-msg"> Question bank name is required. </small><br>
+                            
+                            <mat-form-field class="col-sm-12 custom-field select-control m-b-20" 
+                            *ngIf="pathName == 'uploadBulkQuestion' && uploadForm.controls['selectedQuestionBankName'].value != undefined 
+                            && uploadForm.controls['selectedQuestionBankName'].value.questionBankName == 'NEW'">
+                                <mat-label>Specify Question Bank Name</mat-label>
+                                <input matInput formControlName="newQuestionBankName" maxlength="100" required>
+                            </mat-form-field>
+                            <small *ngIf="uploadForm.controls['newQuestionBankName'].hasError('required') && uploadForm.controls['newQuestionBankName'].touched" 
+                                class="form-error-msg"> Question bank name is required. </small><br>
+                            
+                            <div class="col-sm-12 custom-field select-control m-b-20">
+                                <input type="file" #selectedFile name="file" (change)="onFileSelect($event)" 
+                                placeholder="Upload file" formControlName="localFilePath" accept=".xlsx" required/>
+                            </div>
+                            <div class="col-sm-12 text-center m-b-30"><br>
+                                <button mat-raised-button [disabled]="!uploadForm.valid || uploadForm.controls['file'].value == ''" (click)="uploadFile()" class="btn btn-primary">Upload</button>
+                            </div>
+                        </form>                       
+                    </mat-card-content>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
