@@ -1,0 +1,314 @@
+[2/26 12:21 PM] Neeraj Maurya
+    
+Microsoft Windows [Version 10.0.18363.1377]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+
+C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist>ibmcloud login
+API endpoint: https://cloud.ibm.com
+
+
+Email> kamalkumar.agrawal@hcl.com
+
+
+Password>
+Authenticating...
+Credentials were rejected.
+Code: BXNIM0602E, message: The credentials you entered for the user 'kamalkumar.agrawal@hcl.com' are incorrect
+
+
+Password>
+Authenticating...
+Credentials were rejected.
+Code: BXNIM0602E, message: The credentials you entered for the user 'kamalkumar.agrawal@hcl.com' are incorrect
+
+
+Password>
+Authenticating...
+Credentials were rejected.
+Code: BXNIM0602E, message: The credentials you entered for the user 'kamalkumar.agrawal@hcl.com' are incorrect
+
+
+API endpoint:   https://cloud.ibm.com
+Region:
+Not logged in.
+
+
+New version 1.4.0 is available.
+Release notes: https://github.com/IBM-Cloud/ibm-cloud-cli-release/releases/tag/v1.4.0
+TIP: use 'ibmcloud config --check-version=false' to disable update check.
+
+
+Do you want to update? [y/N] > n
+FAILED
+Unable to authenticate.
+
+
+
+C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist>ibmcloud login
+API endpoint: https://cloud.ibm.com
+
+
+Email> kamalkumar.agrawal@hcl.com
+
+
+Password>
+Authenticating...
+OK
+
+
+Select an account:
+1. HCL Technologies Ltd (939e92c6a7da7c8227196ad967ca9dca)
+2. HCL TECHNOLOGIES LTD (35420cfe8b59398313e8b74d4542d930) <-> 1762749
+Enter a number> 2
+Targeted account HCL TECHNOLOGIES LTD (35420cfe8b59398313e8b74d4542d930) <-> 1762749
+
+
+
+Select a region (or press enter to skip):
+1. au-syd
+2. in-che
+3. jp-osa
+4. jp-tok
+5. kr-seo
+6. eu-de
+7. eu-gb
+8. ca-tor
+9. us-south
+10. us-east
+Enter a number> 9
+Targeted region us-south
+
+
+
+API endpoint:      https://cloud.ibm.com
+Region:            us-south
+User:              kamalkumar.agrawal@hcl.com
+Account:           HCL TECHNOLOGIES LTD (35420cfe8b59398313e8b74d4542d930) <-> 1762749
+Resource group:    No resource group targeted, use 'ibmcloud target -g RESOURCE_GROUP'
+CF API endpoint:
+Org:
+Space:
+
+
+New version 1.4.0 is available.
+Release notes: https://github.com/IBM-Cloud/ibm-cloud-cli-release/releases/tag/v1.4.0
+TIP: use 'ibmcloud config --check-version=false' to disable update check.
+
+
+Do you want to update? [y/N] > n
+
+
+C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist>ibmcloud resource group
+FAILED
+Incorrect Usage.
+
+
+NAME:
+  group - Show details of a resource group
+
+
+USAGE:
+  ibmcloud resource group NAME [--id] [--output FORMAT] [-q, --quiet]
+
+
+OPTIONS:
+  --id            Show ID only. This option is exclusive with '--output'.
+  --output value  Specify output format, only JSON is supported now. This option is exclusive with '--id'.
+  -q, --quiet     Suppress verbose output
+
+
+
+C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist>ibmcloud resource groups
+Retrieving all resource groups under account 35420cfe8b59398313e8b74d4542d930 as kamalkumar.agrawal@hcl.com...
+OK
+Name               ID                                 Default Group   State
+RGP_BOI_ C114829   ffb51f880755460e9b686e139010ceab   false           ACTIVE
+
+
+C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist>ibmcloud target -g ffb51f880755460e9b686e139010ceab
+Targeted resource group RGP_BOI_ C114829
+
+
+
+
+API endpoint:      https://cloud.ibm.com
+Region:            us-south
+User:              kamalkumar.agrawal@hcl.com
+Account:           HCL TECHNOLOGIES LTD (35420cfe8b59398313e8b74d4542d930) <-> 1762749
+Resource group:    RGP_BOI_ C114829
+CF API endpoint:
+Org:
+Space:
+
+
+C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist>ibmcloud target --cf
+Targeted Cloud Foundry (https://api.us-south.cf.cloud.ibm.com)
+
+
+Targeted org Bserv _Platform
+
+
+Targeted space BOI_ C114829
+
+
+
+
+API endpoint:      https://cloud.ibm.com
+Region:            us-south
+User:              kamalkumar.agrawal@hcl.com
+Account:           HCL TECHNOLOGIES LTD (35420cfe8b59398313e8b74d4542d930) <-> 1762749
+Resource group:    RGP_BOI_ C114829
+CF API endpoint:   https://api.us-south.cf.cloud.ibm.com (API version: 2.158.0)
+Org:               Bserv _Platform
+Space:             BOI_ C114829
+
+
+C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist>ibmcloud app push
+Invoking 'cf push'...
+
+
+FAILED
+The Cloud Foundry CLI isn't installed in the IBM Cloud CLI. Use 'ibmcloud cf install' to install it.
+
+
+
+C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist>ibmcloud cf install
+Attempting to download Cloud Foundry CLI...
+ 8.58 MiB / 8.58 MiB [=========================================================================================================================================] 100.00% 5s
+9000100 bytes downloaded
+Saved in C:\Users\neeraj.maurya\.bluemix\tmp\cf_520125435\cf-cli_6.53.0_winx64.zip
+Installing Cloud Foundry CLI...
+OK
+Cloud Foundry CLI is successfully installed
+
+
+C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist>ibmcloud app push
+Invoking 'cf push'...
+
+
+Pushing from manifest to org Bserv _Platform / space BOI_ C114829 as kamalkumar.agrawal@hcl.com...
+Using manifest file C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist\manifest.yml
+yaml: line 4: did not find expected key
+FAILED
+
+
+C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist>ibmcloud app push
+Invoking 'cf push'...
+
+
+Pushing from manifest to org Bserv _Platform / space BOI_ C114829 as kamalkumar.agrawal@hcl.com...
+Using manifest file C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist\manifest.yml
+Deprecation warning: Use of 'buildpack' attribute in manifest is deprecated in favor of 'buildpacks'. Please see https://docs.cloudfoundry.org/devguide/deploy-apps/manifest-attributes.html#deprecated for alternatives and other app manifest deprecations. This feature will be removed in the future.
+
+
+Getting app info...
+Creating app with these attributes...
++ name:         stateStreetQuiz-ui-chatbot
+  path:         C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist
+  buildpacks:
++   staticfile_buildpack
++ memory:       1G
+  routes:
++   statestreetquiz-ui-chatbot-agile-mouse-bf.mybluemix.net
+
+
+Creating app stateStreetQuiz-ui-chatbot...
+Mapping routes...
+Comparing local files to remote cache...
+Packaging files to upload...
+Uploading files...
+ 5.25 MiB / 5.25 MiB [=========================================================================================================================================] 100.00% 5s
+
+
+Waiting for API to complete processing files...
+
+
+Staging app and tracing logs...
+   Downloading staticfile_buildpack...
+   Downloaded staticfile_buildpack
+   Cell 700b3c98-e561-4581-a0fd-cf21aff2b472 creating container for instance c076ab8e-038d-48d2-a2d1-dcc143674eaa
+   Cell 700b3c98-e561-4581-a0fd-cf21aff2b472 successfully created container for instance c076ab8e-038d-48d2-a2d1-dcc143674eaa
+   Downloading app package...
+   Downloaded app package (12.1M)
+   -----> Staticfile Buildpack version 1.5.14
+   -----> Installing nginx 1.19.5
+          Download [https://buildpacks.cloudfoundry.org/dependencies/nginx-static/nginx-static_1.19.5_linux_x64_cflinuxfs3_1bd9c579.tgz]
+   -----> Root folder /tmp/app
+   -----> Copying project files into public
+   -----> Configuring nginx
+   Uploading build artifacts cache...
+   Uploaded build artifacts cache (2.4M)
+   Uploaded droplet (14.5M)
+   Uploading complete
+   Cell 700b3c98-e561-4581-a0fd-cf21aff2b472 stopping instance c076ab8e-038d-48d2-a2d1-dcc143674eaa
+   Cell 700b3c98-e561-4581-a0fd-cf21aff2b472 destroying container for instance c076ab8e-038d-48d2-a2d1-dcc143674eaa
+   Cell 700b3c98-e561-4581-a0fd-cf21aff2b472 successfully destroyed container for instance c076ab8e-038d-48d2-a2d1-dcc143674eaa
+
+
+Waiting for app to start...
+
+
+name:              stateStreetQuiz-ui-chatbot
+requested state:   started
+routes:            statestreetquiz-ui-chatbot-agile-mouse-bf.mybluemix.net
+last uploaded:     Fri 26 Feb 12:15:10 IST 2021
+stack:             cflinuxfs3
+buildpacks:        staticfile
+
+
+type:            web
+instances:       1/1
+memory usage:    1024M
+start command:   $HOME/boot.sh
+     state     since                  cpu    memory    disk      details
+#0   running   2021-02-26T06:46:19Z   0.0%   0 of 1G   0 of 1G
+
+
+
+C:\Users\neeraj.maurya\Desktop\statestreet_ui-phase3\statestreet_ui-phase3\dist>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
