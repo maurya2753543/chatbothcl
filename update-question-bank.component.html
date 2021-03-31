@@ -1,0 +1,65 @@
+<app-app-loader></app-app-loader>
+<div class="col-sm-12 m-t-40">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card custom-admin-card">
+                <mat-card>
+                    <div class="card-header">
+                        <h5>Question Bank</h5>
+                    </div>
+                </mat-card>
+                <div class="card-body">
+                    <mat-card-content>
+                        <div class="col-sm-12">
+                            <h3 class="text-left section-heading">please Select the Question Bank Name in the field
+                                below:</h3>
+                        </div>
+                        <div class="col-sm-12 custom-field m-b-30">
+                            <div class="col-sm-6">
+                                <mat-label class="col-sm-12">LOB Name: </mat-label>
+                                <ngx-select-dropdown (change)="getSubLob()" 
+                                [(ngModel)]="lob" name = "lob" [multiple]="false" 
+                                [config]="lobConfig" [options]="lobList"></ngx-select-dropdown>
+                            </div>
+                            <div class="col-sm-6">
+                                <mat-label class="col-sm-12">Sub LOB Name: </mat-label>
+                                <ngx-select-dropdown (change)="getAllQuestionBank()" 
+                                [(ngModel)]="subLob" name="subLob" [multiple]="false" 
+                                [config]="subLobConfig" [options]="subLobList"></ngx-select-dropdown> 
+                            </div>
+                        </div><br>
+                        <div class="col-sm-12 custom-field m-b-30">
+                            <!-- <mat-form-field class="col-sm-6 custom-field m-b-30">
+                                <mat-label>Question Bank Name</mat-label>
+                                <mat-select [(ngModel)]="questionBankId" (selectionChange)="selectedQB(questionBankId);">
+                                    <mat-option *ngFor="let bank of questionBankList" [value]="bank.questionBankId">
+                                        {{bank.questionBankName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field> -->
+                            <div class="col-sm-6">
+                                <mat-label class="col-sm-12">Question Bank Name</mat-label>
+                                <ngx-select-dropdown (change)="selectedQB($event.value)" [(ngModel)]="questionBankSelected" name="questionBankSelected" [multiple]="false" 
+                                [config]="config" [options]="questionBankList"></ngx-select-dropdown>
+                            </div>
+                            <mat-form-field class="col-sm-6">
+                                <mat-label>Question Bank Status</mat-label>
+                                <mat-select [(ngModel)]="status">
+                                    <mat-option *ngFor="let status of questionStatus" [value]="status">
+                                        {{status}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field><br>
+                        </div><br>
+
+                        <div class="col-sm-12 m-b-30 text-center">
+                            <button mat-raised-button (click)="updateQuestionBank();" class="btn btn-primary" 
+                            [disabled]="questionBankSelected == null || questionBankSelected==undefined || status == '' || lob == null || lob == undefined || subLob == null || subLob == undefined">Update</button>
+                        </div>
+                    </mat-card-content>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>

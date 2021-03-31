@@ -1,0 +1,294 @@
+<app-app-loader></app-app-loader>
+<h2 mat-dialog-title>Question Details</h2>
+<div class="card-body">
+    <mat-card-content>
+        <div class="col-sm-12">
+            <h3 class="text-left section-heading m-t-0 m-b-10">
+                <mat-label class="text-theme"><i class="material-icons">create_new_folder</i> Type:&nbsp;</mat-label>
+                <mat-label class="text-underline">{{questionType}}</mat-label>
+                <mat-label class="text-theme"> | </mat-label>
+                <mat-label class="text-theme">Question ID:&nbsp;</mat-label>
+                <mat-label class="text-underline">{{questionData.questionId}}</mat-label>
+            </h3>
+        </div>
+        <!-- ************************ MCQ type Question Section ********************************************-->
+        <div *ngIf="questionType == 'Mcq'">
+            <form [formGroup]="mcqForm">
+                <div class="col-sm-12 custom-field">
+                    <h3 class="text-left section-heading m-b-10 m-t-5">Question: </h3>
+                    <mat-form-field>
+                        <input matInput class="text-left section-heading m-b-10 m-t-5" formControlName="questionText">
+                    </mat-form-field>
+                    <small *ngIf="mcqForm.controls['questionText'].hasError('required') && mcqForm.controls['questionText'].touched" 
+                        class="form-error-msg">Question is required. </small>
+                </div>
+                <p class="para-text text-theme text-left">Options :</p>
+                <mat-radio-group formControlName="correctAnswer">
+                    <div formArrayName="optionList" class="col-sm-12 custom-field m-b-20 m-t-5">
+                        <div *ngFor="let opt of mcqForm.controls.optionList.controls; let i=index;">
+                            <div [formGroupName]="i" fxLayout="column">
+                                <mat-radio-button [value]="opt.controls['optionName'].value" (change)="radioChange(opt.controls['_id'].value, opt.controls['optionName'].value)">
+                                    <mat-form-field>
+                                        <input matInput formControlName="optionName">
+                                    </mat-form-field>
+                                    <small *ngIf="opt.controls['optionName'].hasError('required') && opt.controls['optionName'].touched" 
+                                    class="form-error-msg">Option Value is required. </small>
+                                </mat-radio-button>
+                            </div>
+                        </div>
+                    </div>
+                </mat-radio-group>
+                <div class="col-sm-12 m-b-10">
+                    <mat-form-field class="col-sm-6">
+                        <mat-label>Question Status</mat-label>
+                        <mat-select formControlName="status">
+                            <mat-option *ngFor="let status of questionStatus" [value]="status">
+                                {{status}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <small *ngIf="mcqForm.controls['status'].hasError('required') && mcqForm.controls['status'].touched" 
+                    class="form-error-msg">Status is required. </small>
+                    <div class="col-sm-6">
+                        <mat-label class="col-sm-12">Category: </mat-label>
+                        <ngx-select-dropdown formControlName="category" [multiple]="false" 
+                            [config]="categoryConfig" [options]="questionCategoryList"></ngx-select-dropdown>
+                    </div>
+                    <small *ngIf="mcqForm.controls['category'].hasError('required') && mcqForm.controls['category'].touched" 
+                    class="form-error-msg">Category is required. </small>
+                </div>
+                <small class="form-error-msg" *ngIf="duplicateErr!=''">{{duplicateErr}}</small>
+                <div class="col-sm-12 m-b-30 text-center" fxLayout="row">
+                    <span fxFlex="5"></span>
+                    <button mat-raised-button fxFlex="40" class="btn btn-primary" (click)="updateQuestion(mcqForm)" [disabled]="!mcqForm.valid">Update</button>
+                    <span fxFlex="10"></span>
+                    <button mat-raised-button fxFlex="40" class="btn btn-primary" (click)="closeDialog()">Cancel</button>
+                    <span fxFlex="5"></span>
+                </div>
+            </form>
+        </div>
+        <!-- *************************** MAQ type Question Section *********************************** -->
+        <div *ngIf="questionType == 'Maq'">
+            <form [formGroup]="maqForm">
+                <div class="col-sm-12 custom-field">
+                    <h3 class="text-left section-heading m-b-10 m-t-5">Question: </h3>
+                    <mat-form-field>
+                        <input matInput class="text-left section-heading m-b-10 m-t-5" formControlName="questionText">
+                    </mat-form-field>
+                    <small *ngIf="maqForm.controls['questionText'].hasError('required') && maqForm.controls['questionText'].touched" 
+                    class="form-error-msg">Question is required. </small>
+                </div>
+                <div formArrayName="optionList" class="col-sm-12 custom-field m-b-20 m-t-5 custom-mat-checkbox">
+                    <mat-label>Option:</mat-label>
+                    <div *ngFor="let opt of maqForm.controls.optionList.controls; let i=index;">
+                        <div [formGroupName]="i">
+                            <mat-form-field class="col-sm-12">
+                                <mat-checkbox  [value]="opt.controls['optionName'].value" [checked]="checkboxInitial(opt.controls['_id'].value, opt.controls['optionName'].value)"
+                                    (change)="checkboxChange(opt.controls['_id'].value, opt.controls['optionName'].value, $event)"> &nbsp;&nbsp;
+                                    <input  matInput formControlName="optionName">
+                                </mat-checkbox>                                                
+                            </mat-form-field>    
+                            <small *ngIf="opt.controls['optionName'].hasError('required') && opt.controls['optionName'].touched" 
+                            class="form-error-msg">Option is required. </small>
+                        </div>
+                    </div> 
+                </div>
+                <div class="col-sm-12 m-b-10">
+                    <mat-form-field class="col-sm-6">
+                        <mat-label>Question Status</mat-label>
+                        <mat-select formControlName="status">
+                            <mat-option *ngFor="let status of questionStatus" [value]="status">
+                                {{status}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <small *ngIf="maqForm.controls['status'].hasError('required') && maqForm.controls['status'].touched" 
+                    class="form-error-msg">Status is required. </small>
+                    <div class="col-sm-6">
+                        <mat-label class="col-sm-12">Category: </mat-label>
+                        <ngx-select-dropdown formControlName="category" [multiple]="false" 
+                            [config]="categoryConfig" [options]="questionCategoryList"></ngx-select-dropdown>
+                    </div>
+                    <small *ngIf="maqForm.controls['category'].hasError('required') && maqForm.controls['category'].touched" 
+                    class="form-error-msg">Category is required. </small>                    
+                </div>
+                <small class="form-error-msg" *ngIf="duplicateErr!=''">{{duplicateErr}}</small>
+                <div class="col-sm-12 m-b-30 text-center" fxLayout="row">
+                    <span fxFlex="5"></span>
+                    <button mat-raised-button fxFlex="40" class="btn btn-primary" (click)="updateQuestion(maqForm)" [disabled]="!maqForm.valid">Update</button>
+                    <span fxFlex="10"></span>
+                    <button mat-raised-button fxFlex="40" class="btn btn-primary" (click)="closeDialog()">Cancel</button>
+                    <span fxFlex="5"></span>
+                </div>
+            </form>
+        </div>
+        <!-- **************************** Match Type Question Section ***************************** -->
+        <div *ngIf="questionType == 'Match'">
+            <form [formGroup]="matchForm">
+                <div class="col-sm-12 custom-field">
+                    <h3 class="text-left section-heading m-b-10 m-t-5">Question: </h3>
+                    <mat-form-field>
+                        <input matInput class="text-left section-heading m-b-10 m-t-5" formControlName="questionText">
+                    </mat-form-field>
+                    <small *ngIf="matchForm.controls['questionText'].hasError('required') && matchForm.controls['questionText'].touched" 
+                        class="form-error-msg">Question is required. </small>
+                </div>
+                <div formArrayName="optionList" class="col-sm-12 custom-field m-b-20 m-t-5 custom-mat-checkbox">
+                    <div fxLayout="row">
+                        <div fxFlex="45">
+                            <mat-label>Column A:</mat-label>
+                        </div>
+                        <span fxFlex="10"></span>
+                        <div fxFlex="45">
+                            <mat-label>Column B:</mat-label>
+                        </div>
+                    </div>
+                    <div *ngFor="let opt of matchForm.controls.optionList.controls; let i=index;">
+                        <div [formGroupName]="i" fxLayout="row">
+                            <mat-form-field fxFlex="45">
+                                <input matInput formControlName="optionName">
+                            </mat-form-field>
+                            <span fxFlex="10"></span>
+                            <mat-form-field fxFlex="45">
+                                <input matInput formControlName="answer">
+                                    <small *ngIf="opt.controls['answer'].hasError('required') && opt.controls['answer'].touched" 
+                                        class="form-error-msg">answer is required. </small>
+                            </mat-form-field>      
+                        </div>
+                    </div> 
+                </div>
+                <div class="col-sm-12 m-b-10">
+                    <mat-form-field class="col-sm-6">
+                        <mat-label>Question Status</mat-label>
+                        <mat-select formControlName="status">
+                            <mat-option *ngFor="let status of questionStatus" [value]="status">
+                                {{status}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <small *ngIf="matchForm.controls['status'].hasError('required') && matchForm.controls['status'].touched" 
+                        class="form-error-msg">Status is required. </small>
+                    <div class="col-sm-6">
+                        <mat-label class="col-sm-12">Category: </mat-label>
+                        <ngx-select-dropdown formControlName="category" [multiple]="false" 
+                            [config]="categoryConfig" [options]="questionCategoryList"></ngx-select-dropdown>
+                    </div>
+                    <small *ngIf="matchForm.controls['category'].hasError('required') && matchForm.controls['category'].touched" 
+                    class="form-error-msg">Category is required. </small>                
+                </div>
+                <div class="col-sm-12 m-b-30 text-center" fxLayout="row">
+                    <span fxFlex="4"></span>
+                    <button fxFlex="25" mat-raised-button class="btn btn-primary" (click)="addMatchOption();">Add Options</button>
+                    <span fxFlex="8"></span>
+                    <button fxFlex="25" mat-raised-button class="btn btn-primary" [disabled]="!matchForm.valid" (click)="updateQuestion(matchForm);">Update</button>
+                    <span fxFlex="8"></span>
+                    <button mat-raised-button fxFlex="25" class="btn btn-primary" (click)="closeDialog()">Cancel</button>
+                    <span fxFlex="4"></span>
+                </div>
+            </form>
+        </div>
+        <!-- *********************************** Image type question section ******************************** -->
+        <div *ngIf="questionType == 'Image'">
+            <form [formGroup]="imageForm">
+                <div class="col-sm-12 custom-field">
+                    <h3 class="text-left section-heading m-b-10 m-t-5">Question: </h3>
+                    <mat-form-field>
+                        <input matInput class="text-left section-heading m-b-10 m-t-5" formControlName="questionText">
+                    </mat-form-field>
+                    <small *ngIf="imageForm.controls['questionText'].hasError('required') && imageForm.controls['questionText'].touched" 
+                        class="form-error-msg">Question is required. </small>
+                </div>
+                <div class="col-sm-12 custom-field text-center">
+                    <img src='data:image/jpeg;base64,{{ image }}' height="200"> <br/>
+                </div><br>
+                <div class="col-sm-12 custom-field m-b-10">
+                    <div>
+                        <mat-label>Upload Image (Allowed Formats: jpeg, png): This will overwrite the existing image.</mat-label>
+                        <input type="file" accept="image/jpeg, image/jpg, image/png" (change)="imageFileSelect($event)">
+                    </div>
+                </div>
+                <mat-radio-group formControlName="correctAnswer">
+                    <div formArrayName="optionList" class="col-sm-12 custom-field m-b-20 m-t-5">
+                        <p class="para-text text-theme text-left">Options :</p>
+                        <div *ngFor="let opt of imageForm.controls.optionList.controls; let i=index;">
+                            <div [formGroupName]="i">
+                                <mat-radio-button [value]="opt.controls['optionName'].value" (change)="radioChange(opt.controls['_id'].value, opt.controls['optionName'].value)">
+                                    <mat-form-field >
+                                        <input matInput formControlName="optionName">
+                                    </mat-form-field>
+                                    <small *ngIf="opt.controls['optionName'].hasError('required') && opt.controls['optionName'].touched" 
+                                    class="form-error-msg">Option Value is required. </small>
+                                </mat-radio-button>
+                            </div>
+                        </div>
+                    </div>
+                </mat-radio-group>
+                <div class="col-sm-12 m-b-10">
+                    <mat-form-field class="col-sm-5">
+                        <mat-label>Question Status</mat-label>
+                        <mat-select formControlName="status">
+                            <mat-option *ngFor="let status of questionStatus" [value]="status">
+                                {{status}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <small *ngIf="imageForm.controls['status'].hasError('required') && imageForm.controls['status'].touched" 
+                        class="form-error-msg">Status is required. </small>
+                    <div class="col-sm-6">
+                        <mat-label class="col-sm-12">Category: </mat-label>
+                        <ngx-select-dropdown formControlName="category" [multiple]="false" 
+                            [config]="categoryConfig" [options]="questionCategoryList"></ngx-select-dropdown>
+                    </div>
+                    <small *ngIf="imageForm.controls['category'].hasError('required') && imageForm.controls['category'].touched" 
+                    class="form-error-msg">Category is required. </small>
+                </div>                
+                <div class="col-sm-12 m-b-30 text-center" fxLayout="row">
+                    <span fxFlex="5"></span>
+                    <button mat-raised-button fxFlex="40" class="btn btn-primary" [disabled]="!imageForm.valid" (click)="updateQuestion(imageForm)">Update</button>
+                    <span fxFlex="10"></span>
+                    <button mat-raised-button fxFlex="40" class="btn btn-primary" (click)="closeDialog()">Cancel</button>
+                    <span fxFlex="5"></span>
+                </div>
+            </form>
+        </div>
+        <!-- ****************************** Descriptive Type Question Section ************************ -->
+        <div *ngIf="questionType == 'Descriptive'">
+            <form [formGroup]="descriptiveForm">
+                <div class="col-sm-12 custom-field">
+                    <h3 class="text-left section-heading m-b-10 m-t-5">Question: </h3>
+                    <mat-form-field>
+                        <textarea matInput class="desc" rows="100" formControlName="questionText"></textarea>
+                    </mat-form-field>
+                    <small *ngIf="descriptiveForm.controls['questionText'].hasError('required') && descriptiveForm.controls['questionText'].touched" 
+                        class="form-error-msg">Question is required. </small>
+                </div>                                
+                <div class="col-sm-12 m-b-10">
+                    <mat-form-field class="col-sm-6">
+                        <mat-label>Question Status</mat-label>
+                        <mat-select formControlName="status">
+                            <mat-option *ngFor="let status of questionStatus" [value]="status">
+                                {{status}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <small *ngIf="descriptiveForm.controls['status'].hasError('required') && descriptiveForm.controls['status'].touched" 
+                        class="form-error-msg">Status is required. </small>
+                    <div class="col-sm-6">
+                        <mat-label class="col-sm-12">Category: </mat-label>
+                        <ngx-select-dropdown formControlName="category" [multiple]="false" 
+                            [config]="categoryConfig" [options]="questionCategoryList"></ngx-select-dropdown>
+                    </div>
+                    <small *ngIf="descriptiveForm.controls['category'].hasError('required') && descriptiveForm.controls['category'].touched" 
+                        class="form-error-msg">Category is required. </small>
+                </div>
+                <div class="col-sm-12 m-b-30 text-center" fxLayout="row">
+                    <span fxFlex="5"></span>
+                    <button mat-raised-button fxFlex="40" class="btn btn-primary" [disabled]="!descriptiveForm.valid" (click)="updateQuestion(descriptiveForm)">Update</button>
+                    <span fxFlex="10"></span>
+                    <button mat-raised-button fxFlex="40" class="btn btn-primary" (click)="closeDialog()">Cancel</button>
+                    <span fxFlex="5"></span>
+                </div>
+            </form>
+        </div>                
+    </mat-card-content>
+</div>

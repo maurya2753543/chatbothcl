@@ -1,0 +1,5 @@
+applications:
+- name: stateStreetQuiz-ui-phase2
+  random-route: true
+  memory: 1024M
+  buildpack: staticfile_buildpack
